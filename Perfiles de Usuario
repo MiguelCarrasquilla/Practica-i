@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+
+// Clase base para representar un usuario genérico
+class Usuario {
+public:
+    Usuario(const std::string& nombre, const std::string& correo, int codigoPerfil)
+        : nombre(nombre), correo(correo), codigoPerfil(codigoPerfil) {}
+
+    virtual void mostrarContenido() const {
+        std::cout << "Acciones para el perfil " << codigoPerfil << ": ";
+    }
+
+private:
+    std::string nombre;
+    std::string correo;
+    int codigoPerfil;
+};
+
+// Clase para representar un administrador
+class Administrador : public Usuario {
+public:
+    Administrador(const std::string& nombre, const std::string& correo, int codigoPerfil, const std::string& claveAdministrador)
+        : Usuario(nombre, correo, codigoPerfil), claveAdministrador(claveAdministrador) {}
+
+    void mostrarContenido() const override {
+        Usuario::mostrarContenido();
+        std::cout << "Asignar código a perfil" << std::endl;
+    }
+
+private:
+    std::string claveAdministrador;
+};
+
+// Clase para representar un cajero
+class Cajero : public Usuario {
+public:
+    Cajero(const std::string& nombre, const std::string& correo, int codigoPerfil)
+        : Usuario(nombre, correo, codigoPerfil) {}
+
+    void mostrarContenido() const override {
+        Usuario::mostrarContenido();
+        std::cout << "Registrar venta" << std::endl;
+    }
+};
+
+// Clase para representar un cliente
+class Cliente : public Usuario {
+public:
+    Cliente(const std::string& nombre, const std::string& correo, int codigoPerfil, const std::string& telefonoContacto, const std::string& direccionContacto)
+        : Usuario(nombre, correo, codigoPerfil), telefonoContacto(telefonoContacto), direccionContacto(direccionContacto) {}
+
+    void mostrarContenido() const override {
+        Usuario::mostrarContenido();
+        std::cout << "Consultar productos" << std::endl;
+    }
+
+private:
+    std::string telefonoContacto;
+    std::string direccionContacto;
+};
+
+int main() {
+    Administrador admin("Admin Nombre", "admin@example.com", 1, "admin123");
+    Cajero cajero("Cajero Nombre", "cajero@example.com", 2);
+    Cliente cliente("Cliente Nombre", "cliente@example.com", 3, "555-123-4567", "123 Calle Principal");
+
+    // Mostrar contenido de cada usuario
+    admin.mostrarContenido();
+    cajero.mostrarContenido();
+    cliente.mostrarContenido();
+
+    return 0;
+}
